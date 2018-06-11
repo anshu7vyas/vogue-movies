@@ -1,7 +1,6 @@
 package com.anshulvyas.android.voguemovies.data.source.remote;
 
 import com.anshulvyas.android.voguemovies.BuildConfig;
-import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.anshulvyas.android.voguemovies.data.model.MoviesResponse;
 
 import retrofit2.Call;

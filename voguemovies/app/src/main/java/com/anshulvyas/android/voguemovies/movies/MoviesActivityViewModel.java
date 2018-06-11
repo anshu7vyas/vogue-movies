@@ -1,6 +1,5 @@
 package com.anshulvyas.android.voguemovies.movies;
 
-import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 

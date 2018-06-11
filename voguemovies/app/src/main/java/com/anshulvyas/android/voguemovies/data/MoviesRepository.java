@@ -22,6 +22,7 @@ public class MoviesRepository {
 
     private static final String LOG_TAG = MoviesRepository.class.getSimpleName();
     private static MoviesRepository mMoviesRepositoryInstance = null;
+    private final MoviesApiClient mMoviesApiClient = MoviesApiClient.getInstance();
 
     public static MoviesRepository getInstance() {
         if (mMoviesRepositoryInstance  == null) {
@@ -37,7 +38,7 @@ public class MoviesRepository {
     public LiveData<List<Movie>> getPopularMoviesLiveData() {
         final MutableLiveData<List<Movie>> popularMoviesMutableLiveData = new MutableLiveData<>();
 
-        MoviesApiClient.getInstance().getMoviesApiHandler().getPopularMovies().enqueue(new Callback<MoviesResponse>() {
+        mMoviesApiClient.getMoviesApiHandler().getPopularMovies().enqueue(new Callback<MoviesResponse>() {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 popularMoviesMutableLiveData.setValue(fetchPopularMovies(response));
@@ -54,8 +55,6 @@ public class MoviesRepository {
     }
 
     private List<Movie> fetchPopularMovies(Response<MoviesResponse> popularMoviesResponse) {
-//        MoviesResponse popularMovies = popularMoviesResponse.body();
-//        return popularMovies.getResults();
         List<Movie> popularMovies = new ArrayList<>();
         if (popularMoviesResponse.body() != null && popularMoviesResponse.body().getResults() != null) {
             popularMovies = popularMoviesResponse.body().getResults();
@@ -71,7 +70,7 @@ public class MoviesRepository {
     public LiveData<List<Movie>> getTopRatedMoviesLiveData() {
         final MutableLiveData<List<Movie>> topRatedMoviesMutableLiveData = new MutableLiveData<>();
 
-        MoviesApiClient.getInstance().getMoviesApiHandler().getTopRatedMovies().enqueue(new Callback<MoviesResponse>() {
+        mMoviesApiClient.getMoviesApiHandler().getTopRatedMovies().enqueue(new Callback<MoviesResponse>() {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 topRatedMoviesMutableLiveData.setValue(fetchTopRatedMovies(response));

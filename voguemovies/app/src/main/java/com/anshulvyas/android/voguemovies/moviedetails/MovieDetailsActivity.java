@@ -1,12 +1,10 @@
 package com.anshulvyas.android.voguemovies.moviedetails;
 
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRatingBar;
-import android.widget.ImageView;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
@@ -15,6 +13,10 @@ import com.anshulvyas.android.voguemovies.databinding.ActivityMovieDetailsBindin
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+/**
+ * Shows details of a selected Movie - Title, Overview, Rating, Release Date
+ *
+ */
 public class MovieDetailsActivity extends AppCompatActivity {
 
     ActivityMovieDetailsBinding mMoviesDetailBinding;
@@ -48,16 +50,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void populateUI(Movie movie) {
         String imageBackdropUrl = MoviesApiClient.BASE_URL_BACKDROP_IMAGE + movie.getBackdropPath();
         String imagePosterUrl = MoviesApiClient.BASE_URL_POSTER_IMAGE + movie.getPosterPath();
-        mMoviesDetailBinding.tvOriginalTitle.setText(movie.getOriginalTitle());
 
-        float voteRating = (float) movie.getVoteAverage() / 2;
+        mMoviesDetailBinding.tvOriginalTitle.setText((movie.getOriginalTitle().equals("")) ? "N/A" :movie.getOriginalTitle());
+
+        Double voteRating = (movie.getVoteAverage() != null) ? (movie.getVoteAverage()/ 2) : 0.0;
         AppCompatRatingBar ratingBar = mMoviesDetailBinding.rbMovieDetails;
         ratingBar.setIsIndicator(true);
         ratingBar.setStepSize(0.1f);
-        ratingBar.setRating(voteRating);
+        ratingBar.setRating(voteRating.floatValue());
 
-        mMoviesDetailBinding.tvMovieOverview.setText(movie.getMovieOverview());
-        mMoviesDetailBinding.tvReleaseDateLabel.setText(movie.getMovieReleaseDate());
+        mMoviesDetailBinding.tvMovieOverview.setText((movie.getMovieOverview().equals("")) ? "N/A" :movie.getMovieOverview());
+        mMoviesDetailBinding.tvReleaseDateLabel.setText((movie.getMovieReleaseDate().equals("")) ? "N/A" :movie.getMovieReleaseDate());
 
         Picasso.with(this)
                 .load(imageBackdropUrl)

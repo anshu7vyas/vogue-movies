@@ -72,7 +72,7 @@ public class Movie {
     @SerializedName("genre_ids")
     private List<Integer> movieGenreIds;
 
-    public int getVoteCount() {
+    public Integer getVoteCount() {
         return voteCount;
     }
 
@@ -80,7 +80,7 @@ public class Movie {
         this.voteCount = voteCount;
     }
 
-    public int getMovieId() {
+    public Integer getMovieId() {
         return movieId;
     }
 
@@ -88,7 +88,7 @@ public class Movie {
         this.movieId = movieId;
     }
 
-    public boolean isMovieVideo() {
+    public Boolean isMovieVideo() {
         return movieVideo;
     }
 
@@ -96,7 +96,7 @@ public class Movie {
         this.movieVideo = movieVideo;
     }
 
-    public double getVoteAverage() {
+    public Double getVoteAverage() {
         return voteAverage;
     }
 
@@ -112,7 +112,7 @@ public class Movie {
         this.movieTitle = movieTitle;
     }
 
-    public double getMoviePopularity() {
+    public Double getMoviePopularity() {
         return moviePopularity;
     }
 
@@ -152,7 +152,7 @@ public class Movie {
         this.backdropPath = backdropPath;
     }
 
-    public boolean getIsAdult() {
+    public Boolean getIsAdult() {
         return isAdult;
     }
 

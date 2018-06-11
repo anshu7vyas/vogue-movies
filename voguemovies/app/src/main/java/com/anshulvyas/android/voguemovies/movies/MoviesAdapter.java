@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
@@ -19,6 +18,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/**
+ * Recycler view Adapter for populating movies in the Main Activity.
+ *
+ */
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder>{
 
     private static final String LOG_TAG = MoviesAdapter.class.getSimpleName();

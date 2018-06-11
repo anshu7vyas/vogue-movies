@@ -9,6 +9,8 @@
 
     <string name="content_description_poster">Movie Poster</string>
     <string name="content_description_backdrop">Movie Backdrop</string>
+    <string name="content_description_error">Network Connection Error</string>
+    <string name="content_description_filter">Filter Icon</string>
     <string name="release_date_label">Release Date:</string>
 
     <string name="menu_filter_action">Filter</string>
