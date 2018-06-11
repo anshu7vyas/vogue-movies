@@ -20,9 +20,8 @@ import java.util.List;
 
 /**
  * Recycler view Adapter for populating movies in the Main Activity.
- *
  */
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder>{
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder> {
 
     private static final String LOG_TAG = MoviesAdapter.class.getSimpleName();
 
@@ -75,7 +74,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
         RvMoviesListItemBinding moviesListItemBinding;
 
 
-        public MoviesAdapterViewHolder(View itemView) {
+        MoviesAdapterViewHolder(View itemView) {
             super(itemView);
             moviesListItemBinding = DataBindingUtil.bind(itemView);
             itemView.setOnClickListener(this);

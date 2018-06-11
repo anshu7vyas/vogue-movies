@@ -25,14 +25,15 @@ public class MoviesRepository {
     private final MoviesApiClient mMoviesApiClient = MoviesApiClient.getInstance();
 
     public static MoviesRepository getInstance() {
-        if (mMoviesRepositoryInstance  == null) {
-            mMoviesRepositoryInstance  = new MoviesRepository();
+        if (mMoviesRepositoryInstance == null) {
+            mMoviesRepositoryInstance = new MoviesRepository();
         }
         return mMoviesRepositoryInstance;
     }
 
     /**
      * Fetches the Popular Movies data from the MoviesApiService
+     *
      * @return List<Movie>
      */
     public LiveData<List<Movie>> getPopularMoviesLiveData() {
@@ -65,6 +66,7 @@ public class MoviesRepository {
 
     /**
      * Fetches the Top-Rated Movies data from the MoviesApiService
+     *
      * @return List<Movie>
      */
     public LiveData<List<Movie>> getTopRatedMoviesLiveData() {

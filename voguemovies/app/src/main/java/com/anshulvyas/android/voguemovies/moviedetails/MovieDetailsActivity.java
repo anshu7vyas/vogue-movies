@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 
 /**
  * Shows details of a selected Movie - Title, Overview, Rating, Release Date
- *
  */
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -45,22 +44,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     /**
      * Populates the detail movies screen from the movie object received via MainActivity intent
+     *
      * @param movie
      */
     private void populateUI(Movie movie) {
         String imageBackdropUrl = MoviesApiClient.BASE_URL_BACKDROP_IMAGE + movie.getBackdropPath();
         String imagePosterUrl = MoviesApiClient.BASE_URL_POSTER_IMAGE + movie.getPosterPath();
 
-        mMoviesDetailBinding.tvOriginalTitle.setText((movie.getOriginalTitle().equals("")) ? "N/A" :movie.getOriginalTitle());
+        mMoviesDetailBinding.tvOriginalTitle.setText((movie.getOriginalTitle().equals("")) ? "N/A" : movie.getOriginalTitle());
 
-        Double voteRating = (movie.getVoteAverage() != null) ? (movie.getVoteAverage()/ 2) : 0.0;
+        Double voteRating = (movie.getVoteAverage() != null) ? (movie.getVoteAverage() / 2) : 0.0;
         AppCompatRatingBar ratingBar = mMoviesDetailBinding.rbMovieDetails;
         ratingBar.setIsIndicator(true);
         ratingBar.setStepSize(0.1f);
         ratingBar.setRating(voteRating.floatValue());
 
-        mMoviesDetailBinding.tvMovieOverview.setText((movie.getMovieOverview().equals("")) ? "N/A" :movie.getMovieOverview());
-        mMoviesDetailBinding.tvReleaseDateLabel.setText((movie.getMovieReleaseDate().equals("")) ? "N/A" :movie.getMovieReleaseDate());
+        mMoviesDetailBinding.tvMovieOverview.setText((movie.getMovieOverview().equals("")) ? "N/A" : movie.getMovieOverview());
+        mMoviesDetailBinding.tvReleaseDateLabel.setText((movie.getMovieReleaseDate().equals("")) ? "N/A" : movie.getMovieReleaseDate());
 
         Picasso.with(this)
                 .load(imageBackdropUrl)

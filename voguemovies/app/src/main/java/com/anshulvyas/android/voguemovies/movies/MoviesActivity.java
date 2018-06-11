@@ -49,7 +49,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
     /**
      * Observes changes in the LiveData and updates the recycler view according to the Spinner category
      * categoryPosition - 0 -> Popular
-     *                  - 1 -> Top-Rated
+     * - 1 -> Top-Rated
+     *
      * @param categoryPosition
      */
     public void subscribe(int categoryPosition) {
@@ -100,7 +101,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
                 if (position == 0 && isOnline()) {
                     connected();
                     subscribe(position);
-                } else if (position == 1 && isOnline()){
+                } else if (position == 1 && isOnline()) {
                     connected();
                     subscribe(position);
                 } else {
@@ -117,6 +118,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
 
     /**
      * Sets up the recycler view and populates with the data received
+     *
      * @param adapter
      */
     private void populateMoviesList(MoviesAdapter adapter) {
@@ -127,6 +129,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
 
     /**
      * Checks for internet connectivity
+     *
      * @return
      */
     public boolean isOnline() {

@@ -12,6 +12,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="0dp"
             tools:context="com.anshulvyas.android.voguemovies.moviedetails.MovieDetailsFragment">
 
             <ImageView
@@ -19,7 +20,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="219dp"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/content_description_backdrop"/>
+                android:contentDescription="@string/content_description_backdrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/iv_movie_poster"
