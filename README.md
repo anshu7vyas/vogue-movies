@@ -5,9 +5,10 @@ An Android app for displaying the trending movies using The MovieDB API
 - Toggle between the Popular Movies and all time Top-Rated Movies.
 - See the movie details and ratings.
 
-
+<img src="https://github.com/av-7/vogue-movies/blob/master/screens/app_running.gif" alt="drawing" width="200px"/>
 
 ## Libraries Used:
+- Architecture Components
 - Retrofit
 - Gson
 - Picasso
