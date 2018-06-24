@@ -8,9 +8,6 @@ import java.util.List;
  * Created by av7 on 5/7/18.
  */
 
-/**
- * Movie JSON response POJO
- */
 public class Movie {
 
     /**
@@ -61,7 +58,7 @@ public class Movie {
     private String backdropPath;
 
     @SerializedName("adult")
-    private Boolean isAdult;
+    private Boolean movieAdult;
 
     @SerializedName("overview")
     private String movieOverview;
@@ -72,7 +69,7 @@ public class Movie {
     @SerializedName("genre_ids")
     private List<Integer> movieGenreIds;
 
-    public Integer getVoteCount() {
+    public int getVoteCount() {
         return voteCount;
     }
 
@@ -80,7 +77,7 @@ public class Movie {
         this.voteCount = voteCount;
     }
 
-    public Integer getMovieId() {
+    public int getMovieId() {
         return movieId;
     }
 
@@ -88,7 +85,7 @@ public class Movie {
         this.movieId = movieId;
     }
 
-    public Boolean isMovieVideo() {
+    public boolean isMovieVideo() {
         return movieVideo;
     }
 
@@ -96,7 +93,7 @@ public class Movie {
         this.movieVideo = movieVideo;
     }
 
-    public Double getVoteAverage() {
+    public double getVoteAverage() {
         return voteAverage;
     }
 
@@ -112,7 +109,7 @@ public class Movie {
         this.movieTitle = movieTitle;
     }
 
-    public Double getMoviePopularity() {
+    public double getMoviePopularity() {
         return moviePopularity;
     }
 
@@ -152,12 +149,12 @@ public class Movie {
         this.backdropPath = backdropPath;
     }
 
-    public Boolean getIsAdult() {
-        return isAdult;
+    public boolean isMovieAdult() {
+        return movieAdult;
     }
 
-    public void setIsAdult(Boolean isAdult) {
-        this.isAdult = isAdult;
+    public void setMovieAdult(Boolean movieAdult) {
+        this.movieAdult = movieAdult;
     }
 
     public String getMovieOverview() {

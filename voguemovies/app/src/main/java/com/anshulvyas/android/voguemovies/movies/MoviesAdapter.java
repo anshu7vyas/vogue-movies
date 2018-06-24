@@ -1,27 +1,22 @@
 package com.anshulvyas.android.voguemovies.movies;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.anshulvyas.android.voguemovies.data.source.remote.MoviesApiClient;
-import com.anshulvyas.android.voguemovies.databinding.RvMoviesListItemBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-/**
- * Recycler view Adapter for populating movies in the Main Activity.
- */
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder>{
 
     private static final String LOG_TAG = MoviesAdapter.class.getSimpleName();
 
@@ -42,25 +37,25 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
     @NonNull
     @Override
     public MoviesAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewDataBinding viewDataBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(mContext),
-                R.layout.rv_movies_list_item,
-                parent,
-                false);
+        Context context = parent.getContext();
+        int layoutIdForListItem = R.layout.rv_movies_list_item;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        boolean shouldAttachToParentImmediately = false;
 
-        return new MoviesAdapterViewHolder(viewDataBinding.getRoot());
+        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
+
+        return new MoviesAdapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MoviesAdapterViewHolder holder, int position) {
-        Movie movie = mMoviesList.get(position);
-        String imageUrl = MoviesApiClient.BASE_URL_POSTER_IMAGE + movie.getPosterPath();
+        String imageUrl = MoviesApiClient.BASE_URL_POSTER_IMAGE + mMoviesList.get(position).getPosterPath();
 
         Picasso.with(mContext)
                 .load(imageUrl)
                 .placeholder(android.R.drawable.sym_def_app_icon)
                 .error(android.R.drawable.sym_def_app_icon)
-                .into(holder.moviesListItemBinding.ivMoviesItem);
+                .into(holder.mMovieImageView);
 
     }
 
@@ -71,12 +66,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
     }
 
     class MoviesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        RvMoviesListItemBinding moviesListItemBinding;
 
+        final ImageView mMovieImageView;
 
-        MoviesAdapterViewHolder(View itemView) {
+        public MoviesAdapterViewHolder(View itemView) {
             super(itemView);
-            moviesListItemBinding = DataBindingUtil.bind(itemView);
+            mMovieImageView = itemView.findViewById(R.id.iv_movies_item);
             itemView.setOnClickListener(this);
         }
 

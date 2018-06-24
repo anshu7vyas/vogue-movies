@@ -1,10 +1,12 @@
 package com.anshulvyas.android.voguemovies.moviedetails;
 
 import android.content.Intent;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRatingBar;
+import android.widget.ImageView;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
@@ -13,9 +15,6 @@ import com.anshulvyas.android.voguemovies.databinding.ActivityMovieDetailsBindin
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-/**
- * Shows details of a selected Movie - Title, Overview, Rating, Release Date
- */
 public class MovieDetailsActivity extends AppCompatActivity {
 
     ActivityMovieDetailsBinding mMoviesDetailBinding;
@@ -37,41 +36,36 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
 
         mMoviesDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details);
+        ImageView movieBackdropIv = findViewById(R.id.iv_movie_backdrop);
+        ImageView moviePosterIv = findViewById(R.id.iv_movie_poster);
 
-        populateUI(movie);
-
-    }
-
-    /**
-     * Populates the detail movies screen from the movie object received via MainActivity intent
-     *
-     * @param movie
-     */
-    private void populateUI(Movie movie) {
         String imageBackdropUrl = MoviesApiClient.BASE_URL_BACKDROP_IMAGE + movie.getBackdropPath();
         String imagePosterUrl = MoviesApiClient.BASE_URL_POSTER_IMAGE + movie.getPosterPath();
 
-        mMoviesDetailBinding.tvOriginalTitle.setText((movie.getOriginalTitle().equals("")) ? "N/A" : movie.getOriginalTitle());
-
-        Double voteRating = (movie.getVoteAverage() != null) ? (movie.getVoteAverage() / 2) : 0.0;
-        AppCompatRatingBar ratingBar = mMoviesDetailBinding.rbMovieDetails;
-        ratingBar.setIsIndicator(true);
-        ratingBar.setStepSize(0.1f);
-        ratingBar.setRating(voteRating.floatValue());
-
-        mMoviesDetailBinding.tvMovieOverview.setText((movie.getMovieOverview().equals("")) ? "N/A" : movie.getMovieOverview());
-        mMoviesDetailBinding.tvReleaseDateLabel.setText((movie.getMovieReleaseDate().equals("")) ? "N/A" : movie.getMovieReleaseDate());
-
+        populateUI(movie);
         Picasso.with(this)
                 .load(imageBackdropUrl)
                 .placeholder(android.R.drawable.sym_def_app_icon)
                 .error(android.R.drawable.sym_def_app_icon)
-                .into(mMoviesDetailBinding.ivMovieBackdrop);
+                .into(movieBackdropIv);
 
         Picasso.with(this)
                 .load(imagePosterUrl)
                 .placeholder(android.R.drawable.sym_def_app_icon)
                 .error(android.R.drawable.sym_def_app_icon)
-                .into(mMoviesDetailBinding.ivMoviePoster);
+                .into(moviePosterIv);
+    }
+
+    private void populateUI(Movie movie) {
+       mMoviesDetailBinding.tvOriginalTitle.setText(movie.getOriginalTitle());
+
+       float voteRating = (float) movie.getVoteAverage() / 2;
+       AppCompatRatingBar ratingBar = mMoviesDetailBinding.rbMovieDetails;
+       ratingBar.setIsIndicator(true);
+       ratingBar.setStepSize(0.1f);
+       ratingBar.setRating(voteRating);
+
+        mMoviesDetailBinding.tvMovieOverview.setText(movie.getMovieOverview());
+        mMoviesDetailBinding.tvReleaseDateLabel.setText(movie.getMovieReleaseDate());
     }
 }

@@ -1,6 +1,9 @@
 package com.anshulvyas.android.voguemovies.data.source.remote;
 
+import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.anshulvyas.android.voguemovies.data.model.MoviesResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -19,6 +22,11 @@ public interface MoviesApiService {
             @Query("api_key") String API_KEY,
             @Query("language") String language,
             @Query("page") int page
+    );
+
+    @GET("movie/{movie_id}")
+    Call<Movie> getMovieDetails (
+            @Path("movie_id") int movieId
     );
 
 }

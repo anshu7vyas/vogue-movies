@@ -1,13 +1,11 @@
 package com.anshulvyas.android.voguemovies.data.source.remote;
 
 import com.anshulvyas.android.voguemovies.BuildConfig;
+import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.anshulvyas.android.voguemovies.data.model.MoviesResponse;
 
 import retrofit2.Call;
 
-/**
- * Adds the query parameters to the GET query
- */
 public class MoviesApiHandler {
 
     private final static String API_KEY = BuildConfig.API_KEY;
@@ -30,6 +28,10 @@ public class MoviesApiHandler {
         final String CATEGORY_TOP_RATED = "top_rated";
 
         return moviesApiService.getMovies(CATEGORY_TOP_RATED, API_KEY, LANGUAGE, PAGE);
+    }
+
+    public Call<Movie> getMovieDetails (int movieId) {
+        return moviesApiService.getMovieDetails(movieId);
     }
 
 }

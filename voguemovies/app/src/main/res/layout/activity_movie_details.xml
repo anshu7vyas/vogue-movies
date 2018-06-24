@@ -12,7 +12,6 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="0dp"
             tools:context="com.anshulvyas.android.voguemovies.moviedetails.MovieDetailsFragment">
 
             <ImageView
@@ -20,16 +19,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="219dp"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/content_description_backdrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:contentDescription="@string/content_description_backdrop"/>
 
             <ImageView
                 android:id="@+id/iv_movie_poster"
                 android:layout_width="125dp"
                 android:layout_height="185dp"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="108dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/content_description_poster"
@@ -40,9 +37,10 @@
 
             <android.support.v7.widget.AppCompatRatingBar
                 android:id="@+id/rb_movie_details"
+                android:progressTint="@color/colorStarRating"
                 android:layout_width="246dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="@dimen/default_margin"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
                 android:numStars="5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_movie_backdrop" />
@@ -51,9 +49,9 @@
                 android:id="@+id/tv_original_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/vertical_margin"
-                android:layout_marginStart="@dimen/default_margin"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:textSize="30sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_movie_poster"
                 tools:text="Deadpool 2" />
@@ -62,10 +60,10 @@
                 android:id="@+id/tv_movie_overview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,9 +74,8 @@
                 android:id="@+id/tv_release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/default_margin"
-                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/release_date_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_movie_overview" />
@@ -87,9 +84,9 @@
                 android:id="@+id/tv_release_date_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/default_margin"
-                android:textSize="@dimen/font_size_medium"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_release_date"
                 tools:text="2018-10-29" />

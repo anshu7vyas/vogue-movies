@@ -1,10 +1,10 @@
 package com.anshulvyas.android.voguemovies.data.model;
 
+import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MoviesResponse {
 
