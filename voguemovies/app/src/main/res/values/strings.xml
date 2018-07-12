@@ -1,22 +1,12 @@
 <resources>
     <string name="app_name">VogueMovies</string>
 
-    <!--<string name="JSON_ORIGINAL_TITLE">original_title</string>-->
-    <!--<string name="JSON_POSTER_PATH">poster_path</string>-->
-    <!--<string name="JSON_PLOT_SYNOPSIS">overview</string>-->
-    <!--<string name="JSON_USER_RATING">vote_average</string>-->
-    <!--<string name="JSON_RELEASE_DATE">release_date</string>-->
-
     <string name="content_description_poster">Movie Poster</string>
     <string name="content_description_backdrop">Movie Backdrop</string>
-    <string name="content_description_error">Network Connection Error</string>
     <string name="content_description_filter">Filter Icon</string>
     <string name="release_date_label">Release Date:</string>
 
-    <string name="menu_filter_action">Filter</string>
     <string name="error_message">Failed to get results, please try again.</string>
-    <string name="action_filter_popular">Popular</string>
-    <string name="top_rated">Top Rated</string>
 
     <string-array name="category_sort">
         <item>Popular</item>
