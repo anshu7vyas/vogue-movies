@@ -7,7 +7,6 @@ import java.util.List;
 
 
 public class MoviesResponse {
-
     /**
      * page : 1
      * totalResults : 7281
