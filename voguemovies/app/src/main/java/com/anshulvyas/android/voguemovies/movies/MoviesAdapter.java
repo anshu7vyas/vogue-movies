@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
-import com.anshulvyas.android.voguemovies.data.source.remote.MoviesApiClient;
 import com.anshulvyas.android.voguemovies.databinding.RvMoviesListItemBinding;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +29,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
 
     private final MoviesAdapterOnClickHandler mMoviesClickHandler;
 
-    public MoviesAdapter(Context context, MoviesAdapterOnClickHandler moviesAdapterOnClickHandler) {
+    MoviesAdapter(Context context, MoviesAdapterOnClickHandler moviesAdapterOnClickHandler) {
         this.mContext = context;
         this.mMoviesClickHandler = moviesAdapterOnClickHandler;
     }
@@ -54,7 +53,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
     @Override
     public void onBindViewHolder(@NonNull MoviesAdapterViewHolder holder, int position) {
         Movie movie = mMoviesList.get(position);
-        String imageUrl = MoviesApiClient.BASE_URL_POSTER_IMAGE + movie.getPosterPath();
+        String imageUrl = movie.getPosterPath();
 
         Picasso.with(mContext)
                 .load(imageUrl)

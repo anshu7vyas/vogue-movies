@@ -12,8 +12,7 @@ public class MoviesApiClient {
     private MoviesApiHandler moviesApiHandler;
 
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    public static String BASE_URL_POSTER_IMAGE = "https://image.tmdb.org/t/p/w185";
-    public static String BASE_URL_BACKDROP_IMAGE = "https://image.tmdb.org/t/p/w300";
+
 
     private MoviesApiClient() {
 

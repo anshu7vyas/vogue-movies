@@ -5,13 +5,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by av7 on 5/7/18.
- */
-
-/**
  * Movie JSON response POJO
  */
 public class Movie {
+
+    private static String BASE_URL_POSTER_IMAGE = "https://image.tmdb.org/t/p/w185";
+    private static String BASE_URL_BACKDROP_IMAGE = "https://image.tmdb.org/t/p/w300";
 
     /**
      * vote_count : 3705
@@ -29,7 +28,6 @@ public class Movie {
      * overview : As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.
      * release_date : 2018-04-25
      */
-
     @SerializedName("vote_count")
     private Integer voteCount;
 
@@ -121,7 +119,7 @@ public class Movie {
     }
 
     public String getPosterPath() {
-        return posterPath;
+        return BASE_URL_POSTER_IMAGE + posterPath;
     }
 
     public void setPosterPath(String posterPath) {
@@ -145,7 +143,7 @@ public class Movie {
     }
 
     public String getBackdropPath() {
-        return backdropPath;
+        return BASE_URL_BACKDROP_IMAGE + backdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {

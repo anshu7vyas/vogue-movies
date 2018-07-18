@@ -8,7 +8,6 @@ import android.support.v7.widget.AppCompatRatingBar;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
-import com.anshulvyas.android.voguemovies.data.source.remote.MoviesApiClient;
 import com.anshulvyas.android.voguemovies.databinding.ActivityMovieDetailsBinding;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -45,11 +44,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
     /**
      * Populates the detail movies screen from the movie object received via MainActivity intent
      *
-     * @param movie
+     * @param movie Movie Object
      */
     private void populateUI(Movie movie) {
-        String imageBackdropUrl = MoviesApiClient.BASE_URL_BACKDROP_IMAGE + movie.getBackdropPath();
-        String imagePosterUrl = MoviesApiClient.BASE_URL_POSTER_IMAGE + movie.getPosterPath();
+        String imageBackdropUrl = movie.getBackdropPath();
+        String imagePosterUrl = movie.getPosterPath();
 
         mMoviesDetailBinding.tvOriginalTitle.setText((movie.getOriginalTitle().equals("")) ? "N/A" : movie.getOriginalTitle());
 
