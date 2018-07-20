@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
+import com.anshulvyas.android.voguemovies.data.model.MovieReviews;
 import com.anshulvyas.android.voguemovies.data.model.MovieVideos;
 import com.anshulvyas.android.voguemovies.databinding.ActivityMovieDetailsBinding;
 import com.anshulvyas.android.voguemovies.movies.MoviesAdapter;
@@ -112,7 +113,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private void populateReviewsList() {
         mMoviesDetailBinding.rvReviews.setAdapter(mMovieReviewsAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mMoviesDetailBinding.rvReviews.setLayoutManager(layoutManager);
     }
 
