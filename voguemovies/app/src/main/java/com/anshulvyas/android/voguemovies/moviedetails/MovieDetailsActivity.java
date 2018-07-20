@@ -1,16 +1,23 @@
 package com.anshulvyas.android.voguemovies.moviedetails;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRatingBar;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
+import com.anshulvyas.android.voguemovies.data.model.MovieVideos;
 import com.anshulvyas.android.voguemovies.databinding.ActivityMovieDetailsBinding;
+import com.anshulvyas.android.voguemovies.movies.MoviesAdapter;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Shows details of a selected Movie - Title, Overview, Rating, Release Date
@@ -19,18 +26,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     ActivityMovieDetailsBinding mMoviesDetailBinding;
     private Movie movie;
+    private MovieDetailsViewModel mMovieDetailsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
+        mMovieDetailsViewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
+
         Intent intentFromMoviesActivity = getIntent();
 
         if (intentFromMoviesActivity != null) {
             if (intentFromMoviesActivity.hasExtra(Intent.EXTRA_TEXT)) {
                 Gson gson = new Gson();
-                String movieString = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+                String movieString = getIntent().getStringExtra(Intent.EXTRA_TEXT);//getStringExtra(Intent.EXTRA_TEXT);
                 movie = gson.fromJson(movieString, Movie.class);
             }
         }
@@ -73,4 +83,5 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .error(android.R.drawable.sym_def_app_icon)
                 .into(mMoviesDetailBinding.ivMoviePoster);
     }
+
 }

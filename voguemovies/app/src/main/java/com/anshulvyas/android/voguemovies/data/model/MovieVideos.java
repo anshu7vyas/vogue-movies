@@ -2,7 +2,7 @@ package com.anshulvyas.android.voguemovies.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public final class MovieVideos {
+public class MovieVideos {
     /**
      * id : 5a200baa925141033608f5f0
      * iso_639_1 : en
@@ -13,6 +13,10 @@ public final class MovieVideos {
      * size : 1080
      * type : Trailer
      */
+
+    private static final String VIDEO_BASE_URL = "https://www.youtube.com/watch?v=";
+    private static final String VIDEO_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/";
+    private static final String VIDEO_THUMBNAIL_END_PATH = "/default.jpg";
 
     @SerializedName("id")
     private String videoId;
@@ -37,6 +41,14 @@ public final class MovieVideos {
 
     @SerializedName("type")
     private String videoType;
+
+    public String getTrailerUrl(){
+        return VIDEO_BASE_URL + videoKey;
+    }
+
+    public String getTrailerThumbnailUrl(){
+        return VIDEO_THUMBNAIL_BASE_URL + videoKey + VIDEO_THUMBNAIL_END_PATH;
+    }
 
     public String getVideoId() {
         return videoId;
