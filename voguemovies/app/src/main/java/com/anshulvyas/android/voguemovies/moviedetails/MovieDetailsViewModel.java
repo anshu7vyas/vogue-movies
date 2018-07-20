@@ -13,11 +13,6 @@ import java.util.List;
 
 public class MovieDetailsViewModel extends ViewModel {
 
-
-    public LiveData<Movie> getMovieFromId (int movieId) {
-        return MoviesRepository.getInstance().getMovieFromMovieId(movieId);
-    }
-
     public LiveData<List<MovieVideos>> getAllVideos (int movieId) {
         return MoviesRepository.getInstance().getVideosFromMovieId(movieId);
     }

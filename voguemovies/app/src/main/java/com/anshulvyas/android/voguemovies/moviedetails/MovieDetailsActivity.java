@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRatingBar;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
@@ -27,6 +28,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     ActivityMovieDetailsBinding mMoviesDetailBinding;
     private Movie movie;
     private MovieDetailsViewModel mMovieDetailsViewModel;
+    private MovieVideosAdapter mMovieVideoAdapter;
+    private MovieReviewsAdapter mMovieReviewsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_details);
 
         mMovieDetailsViewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
+
+        mMovieVideoAdapter = new MovieVideosAdapter(this);
+        mMovieReviewsAdapter = new MovieReviewsAdapter(this);
 
         Intent intentFromMoviesActivity = getIntent();
 
@@ -49,6 +55,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         populateUI(movie);
 
+        mMovieDetailsViewModel.getAllVideos(movie.getMovieId()).observe(this, v -> {
+            if (v != null) {
+                mMovieVideoAdapter.setMovieVideosData(v);
+            }
+        });
+
+        mMovieDetailsViewModel.getAllReviews(movie.getMovieId()).observe(this, v -> {
+            if (v != null) {
+                mMovieReviewsAdapter.setMovieReviewsData(v);
+            }
+        });
     }
 
     /**
@@ -82,6 +99,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .placeholder(android.R.drawable.sym_def_app_icon)
                 .error(android.R.drawable.sym_def_app_icon)
                 .into(mMoviesDetailBinding.ivMoviePoster);
+
+        populateVideosList();
+        populateReviewsList();
+    }
+
+    private void populateVideosList() {
+        mMoviesDetailBinding.rvVideos.setAdapter(mMovieVideoAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mMoviesDetailBinding.rvVideos.setLayoutManager(layoutManager);
+    }
+
+    private void populateReviewsList() {
+        mMoviesDetailBinding.rvReviews.setAdapter(mMovieReviewsAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mMoviesDetailBinding.rvReviews.setLayoutManager(layoutManager);
     }
 
 }
