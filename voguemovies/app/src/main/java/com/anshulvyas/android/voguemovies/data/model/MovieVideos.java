@@ -42,11 +42,11 @@ public class MovieVideos {
     @SerializedName("type")
     private String videoType;
 
-    public String getTrailerUrl(){
+    public String getVideoUrl(){
         return VIDEO_BASE_URL + videoKey;
     }
 
-    public String getTrailerThumbnailUrl(){
+    public String getVideoThumbnailUrl(){
         return VIDEO_THUMBNAIL_BASE_URL + videoKey + VIDEO_THUMBNAIL_END_PATH;
     }
 

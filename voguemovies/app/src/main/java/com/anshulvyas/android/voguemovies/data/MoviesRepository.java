@@ -5,6 +5,10 @@ import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.anshulvyas.android.voguemovies.data.model.Movie;
+import com.anshulvyas.android.voguemovies.data.model.MovieReviews;
+import com.anshulvyas.android.voguemovies.data.model.MovieReviewsResponse;
+import com.anshulvyas.android.voguemovies.data.model.MovieVideos;
+import com.anshulvyas.android.voguemovies.data.model.MovieVideosResponse;
 import com.anshulvyas.android.voguemovies.data.model.MoviesResponse;
 import com.anshulvyas.android.voguemovies.data.source.remote.MoviesApiClient;
 
@@ -96,5 +100,89 @@ public class MoviesRepository {
 
         return topRatedMovies;
     }
+
+    public LiveData<List<MovieVideos>> getVideosFromMovieId (int movieId) {
+        final MutableLiveData<List<MovieVideos>> movieVideosMutableLiveData = new MutableLiveData<>();
+
+        mMoviesApiClient.getMoviesApiHandler().getVideosFromMovieId(movieId).enqueue(new Callback<MovieVideosResponse>() {
+            @Override
+            public void onResponse(Call<MovieVideosResponse> call, Response<MovieVideosResponse> response) {
+                movieVideosMutableLiveData.setValue(fetchMovieVideos(response));
+                Log.d(LOG_TAG, movieVideosMutableLiveData.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MovieVideosResponse> call, Throwable t) {
+                Log.d(LOG_TAG, t.toString());
+            }
+        });
+        return movieVideosMutableLiveData;
+    }
+
+    private List<MovieVideos> fetchMovieVideos(Response<MovieVideosResponse> movieVideosResponse) {
+        List<MovieVideos> movieVideosList = new ArrayList<>();
+
+        if (movieVideosResponse.body() != null && movieVideosResponse.body().getResults() != null) {
+            movieVideosList = movieVideosResponse.body().getResults();
+        }
+
+        return movieVideosList;
+    }
+
+    public LiveData<List<MovieReviews>> getReviewsFromMovieId (int movieId) {
+        final MutableLiveData<List<MovieReviews>> movieReviewsMutableLiveData = new MutableLiveData<>();
+
+        mMoviesApiClient.getMoviesApiHandler().getReviewsFromMovieId(movieId).enqueue(new Callback<MovieReviewsResponse>() {
+            @Override
+            public void onResponse(Call<MovieReviewsResponse> call, Response<MovieReviewsResponse> response) {
+                movieReviewsMutableLiveData.setValue(fetchMovieReviews(response));
+                Log.d(LOG_TAG, movieReviewsMutableLiveData.toString());
+            }
+
+            @Override
+            public void onFailure(Call<MovieReviewsResponse> call, Throwable t) {
+                Log.d(LOG_TAG, t.toString());
+            }
+        });
+        return movieReviewsMutableLiveData;
+    }
+
+    private List<MovieReviews> fetchMovieReviews (Response<MovieReviewsResponse> movieReviewsResponse) {
+        List<MovieReviews> movieReviewsList = new ArrayList<>();
+
+        if (movieReviewsResponse.body() != null && movieReviewsResponse.body().getResults() != null) {
+            movieReviewsList = movieReviewsResponse.body().getResults();
+        }
+
+        return movieReviewsList;
+    }
+
+//    public LiveData<Movie> getMovieFromMovieId (int movieId) {
+//        final MutableLiveData<Movie> movieDetailsMutableLiveData = new MutableLiveData<>();
+//
+//        mMoviesApiClient.getMoviesApiHandler().getMovieFromId(movieId).enqueue(new Callback<Movie>() {
+//            @Override
+//            public void onResponse(Call<Movie> call, Response<Movie> response) {
+//                movieDetailsMutableLiveData.setValue(fetchMovieDetails(response));
+//                Log.d(LOG_TAG, movieDetailsMutableLiveData.toString());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Movie> call, Throwable t) {
+//                Log.d(LOG_TAG, t.toString());
+//            }
+//        });
+//        return movieDetailsMutableLiveData;
+//    }
+//
+//    private Movie fetchMovieDetails (Response<Movie> movieDetailsResponse) {
+//        Movie movieDetails= new Movie();
+//
+//        if (movieDetailsResponse.body() != null) {
+//            movieDetails = movieDetailsResponse.body();
+//        }
+//
+//        return movieDetails;
+//    }
 
 }
