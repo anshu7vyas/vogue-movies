@@ -1,5 +1,8 @@
 package com.anshulvyas.android.voguemovies.data.source.remote;
 
+import com.anshulvyas.android.voguemovies.data.model.Movie;
+import com.anshulvyas.android.voguemovies.data.model.MovieReviewsResponse;
+import com.anshulvyas.android.voguemovies.data.model.MovieVideosResponse;
 import com.anshulvyas.android.voguemovies.data.model.MoviesResponse;
 
 import retrofit2.Call;
@@ -20,5 +23,23 @@ public interface MoviesApiService {
             @Query("language") String language,
             @Query("page") int page
     );
+
+    @GET("movie/{movie_id}/reviews")
+    Call<MovieReviewsResponse> getReviewsOfMovie (
+            @Path("movie_id") int movieId,
+            @Query("api_key") String API_KEY
+    );
+
+    @GET("movie/{movie_id}/videos")
+    Call<MovieVideosResponse> getVideosOfMovie (
+            @Path("movie_id") int movieId,
+            @Query("api_key") String API_KEY
+    );
+
+//    @GET("movie/{movie_id}")
+//    Call<Movie> getMovie(
+//            @Path("movie_id") int movieId,
+//            @Query("api_key") String API_KEY
+//    );
 
 }

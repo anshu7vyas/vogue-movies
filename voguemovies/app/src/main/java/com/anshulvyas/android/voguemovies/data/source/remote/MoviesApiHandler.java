@@ -1,6 +1,9 @@
 package com.anshulvyas.android.voguemovies.data.source.remote;
 
 import com.anshulvyas.android.voguemovies.BuildConfig;
+import com.anshulvyas.android.voguemovies.data.model.Movie;
+import com.anshulvyas.android.voguemovies.data.model.MovieReviewsResponse;
+import com.anshulvyas.android.voguemovies.data.model.MovieVideosResponse;
 import com.anshulvyas.android.voguemovies.data.model.MoviesResponse;
 
 import retrofit2.Call;
@@ -31,5 +34,17 @@ public class MoviesApiHandler {
 
         return moviesApiService.getMovies(CATEGORY_TOP_RATED, API_KEY, LANGUAGE, PAGE);
     }
+
+    public Call<MovieVideosResponse> getVideosFromMovieId (int movieId) {
+        return moviesApiService.getVideosOfMovie(movieId, API_KEY);
+    }
+
+    public Call<MovieReviewsResponse> getReviewsFromMovieId (int movieId) {
+        return moviesApiService.getReviewsOfMovie(movieId, API_KEY);
+    }
+
+//    public Call<Movie> getMovieFromId (int movieId) {
+//        return moviesApiService.getMovie(movieId, API_KEY);
+//    }
 
 }
