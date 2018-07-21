@@ -1,5 +1,9 @@
 package com.anshulvyas.android.voguemovies.data.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -7,6 +11,7 @@ import java.util.List;
 /**
  * Movie JSON response POJO
  */
+@Entity(tableName = "movie")
 public class Movie {
 
     private static String BASE_URL_POSTER_IMAGE = "https://image.tmdb.org/t/p/w185";
@@ -31,24 +36,29 @@ public class Movie {
     @SerializedName("vote_count")
     private Integer voteCount;
 
+    @PrimaryKey
     @SerializedName("id")
     private Integer movieId;
 
+    @Ignore
     @SerializedName("video")
     private Boolean movieVideo;
 
     @SerializedName("vote_average")
     private Double voteAverage;
 
+    @Ignore
     @SerializedName("title")
     private String movieTitle;
 
+    @Ignore
     @SerializedName("popularity")
     private Double moviePopularity;
 
     @SerializedName("poster_path")
     private String posterPath;
 
+    @Ignore
     @SerializedName("original_language")
     private String originalLanguage;
 
@@ -58,6 +68,7 @@ public class Movie {
     @SerializedName("backdrop_path")
     private String backdropPath;
 
+    @Ignore
     @SerializedName("adult")
     private Boolean isAdult;
 
@@ -67,6 +78,7 @@ public class Movie {
     @SerializedName("release_date")
     private String movieReleaseDate;
 
+    @Ignore
     @SerializedName("genre_ids")
     private List<Integer> movieGenreIds;
 
