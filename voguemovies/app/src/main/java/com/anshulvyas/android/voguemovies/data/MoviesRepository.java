@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
+import com.anshulvyas.android.voguemovies.AppExecutors;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.anshulvyas.android.voguemovies.data.model.MovieReviews;
 import com.anshulvyas.android.voguemovies.data.model.MovieReviewsResponse;
@@ -194,6 +195,40 @@ public class MoviesRepository {
 //
 //        return movieDetails;
 //    }
+
+    public LiveData<List<Movie>> getFavoriteMoviesLiveData() {
+        LiveData<List<Movie>> mFavoriteMoviesList = mFavoriteMoviesDao.getFavoriteMovies();
+        return mFavoriteMoviesList;
+    }
+
+    public LiveData<Movie> getFavoriteMovieById (int movieId) {
+        return mFavoriteMoviesDao.getMovieById(movieId);
+    }
+
+    public void toggleFavoriteMovie (Movie movie) {
+        AppExecutors.getInstance().diskIO().execute(() -> {
+                boolean isFavorite = mFavoriteMoviesDao.isFavoriteMovie(movie.getMovieId());
+
+                if (isFavorite) {
+                    deleteFavoriteMovie(movie);
+                } else {
+                    insertFavoriteMovie(movie);
+                }
+        });
+    }
+
+    private void insertFavoriteMovie (Movie movie) {
+        AppExecutors.getInstance().diskIO().execute(() -> mFavoriteMoviesDao.insertMovie(movie));
+    }
+
+    private void deleteFavoriteMovie (Movie movie) {
+        AppExecutors.getInstance().diskIO().execute(() -> mFavoriteMoviesDao.deleteMovie(movie));
+    }
+
+
+
+
+
 
 
 }

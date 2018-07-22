@@ -21,13 +21,13 @@ public interface FavoriteMoviesDao {
     @Delete
     void deleteMovie (Movie movie);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateMovie (Movie movie);
-
     @Query("SELECT * FROM movie WHERE movieId == :movieId")
     LiveData<Movie> getMovieById (int movieId);
 
     @Query("SELECT * FROM movie ORDER BY originalTitle ASC")
-    LiveData<List<Movie>> getAllFavoriteMovies();
+    LiveData<List<Movie>> getFavoriteMovies();
+
+    @Query("SELECT count(*) from movie WHERE movieId == :movieId")
+    boolean isFavoriteMovie (int movieId);
 
 }
