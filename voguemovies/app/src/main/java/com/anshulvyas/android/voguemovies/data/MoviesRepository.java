@@ -29,6 +29,7 @@ import retrofit2.Response;
 public class MoviesRepository {
 
     private static final String LOG_TAG = MoviesRepository.class.getSimpleName();
+
     private static MoviesRepository mMoviesRepositoryInstance = null;
     private final MoviesApiClient mMoviesApiClient;
     private final FavoriteMoviesDao mFavoriteMoviesDao;
@@ -197,8 +198,7 @@ public class MoviesRepository {
 //    }
 
     public LiveData<List<Movie>> getFavoriteMoviesLiveData() {
-        LiveData<List<Movie>> mFavoriteMoviesList = mFavoriteMoviesDao.getFavoriteMovies();
-        return mFavoriteMoviesList;
+        return mFavoriteMoviesDao.getFavoriteMovies();
     }
 
     public LiveData<Movie> getFavoriteMovieById (int movieId) {
@@ -224,11 +224,4 @@ public class MoviesRepository {
     private void deleteFavoriteMovie (Movie movie) {
         AppExecutors.getInstance().diskIO().execute(() -> mFavoriteMoviesDao.deleteMovie(movie));
     }
-
-
-
-
-
-
-
 }

@@ -17,25 +17,6 @@ import java.util.List;
 @Entity(tableName = "movie")
 public class Movie implements Parcelable {
 
-    private static String BASE_URL_POSTER_IMAGE = "https://image.tmdb.org/t/p/w185";
-    private static String BASE_URL_BACKDROP_IMAGE = "https://image.tmdb.org/t/p/w300";
-
-    @Ignore
-    Movie() {
-
-    }
-
-    public Movie(Integer movieId, String originalTitle, String movieOverview, String posterPath, String backdropPath,
-                 String movieReleaseDate, Double voteAverage) {
-        this.movieId = movieId;
-        this.originalTitle = originalTitle;
-        this.movieOverview = movieOverview;
-        this.posterPath = posterPath;
-        this.backdropPath = backdropPath;
-        this.movieReleaseDate = movieReleaseDate;
-        this.voteAverage = voteAverage;
-    }
-
     /**
      * vote_count : 3705
      * id : 299536
@@ -80,6 +61,25 @@ public class Movie implements Parcelable {
     @ColumnInfo(name = "release_date")
     @SerializedName("release_date")
     private String movieReleaseDate;
+
+//    @ColumnInfo(name = "favorite")
+//    private boolean isFavorite;
+
+    @Ignore
+    Movie() {
+
+    }
+
+    public Movie(Integer movieId, String originalTitle, String movieOverview, String posterPath, String backdropPath,
+                 String movieReleaseDate, Double voteAverage) {
+        this.movieId = movieId;
+        this.originalTitle = originalTitle;
+        this.movieOverview = movieOverview;
+        this.posterPath = posterPath;
+        this.backdropPath = backdropPath;
+        this.movieReleaseDate = movieReleaseDate;
+        this.voteAverage = voteAverage;
+    }
 
     @Ignore
     @SerializedName("vote_count")
@@ -158,7 +158,7 @@ public class Movie implements Parcelable {
     }
 
     public String getPosterPath() {
-        return BASE_URL_POSTER_IMAGE + posterPath;
+        return posterPath;
     }
 
     public void setPosterPath(String posterPath) {
@@ -182,7 +182,7 @@ public class Movie implements Parcelable {
     }
 
     public String getBackdropPath() {
-        return BASE_URL_BACKDROP_IMAGE + backdropPath;
+        return backdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {
@@ -221,6 +221,14 @@ public class Movie implements Parcelable {
         this.movieGenreIds = movieGenreIds;
     }
 
+//    public boolean isFavorite() {
+//        return isFavorite;
+//    }
+//
+//    public void setIsFavorite(boolean favorite){
+//        this.isFavorite = favorite;
+//    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -235,6 +243,7 @@ public class Movie implements Parcelable {
         dest.writeString(this.backdropPath);
         dest.writeString(this.movieReleaseDate);
         dest.writeDouble(this.voteAverage);
+        //dest.writeByte((byte) (isFavorite ? 1 : 0));
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
