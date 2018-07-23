@@ -55,22 +55,16 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
      */
     public void subscribe(int categoryPosition) {
         if (categoryPosition == 0) {
-            mMoviesViewModel.getPopularMoviesList().observe(this, new Observer<List<Movie>>() {
-                @Override
-                public void onChanged(@Nullable List<Movie> movies) {
-                    if (movies != null) {
-                        mMoviesAdapter.setMoviesData(movies);
-                    }
-                }
+            mMoviesViewModel.getPopularMoviesList().observe(this, v -> {
+                mMoviesAdapter.setMoviesData(v);
+            });
+        } else if (categoryPosition == 1) {
+            mMoviesViewModel.getTopRatedMoviesList().observe(this, v -> {
+                mMoviesAdapter.setMoviesData(v);
             });
         } else {
-            mMoviesViewModel.getTopRatedMoviesList().observe(this, new Observer<List<Movie>>() {
-                @Override
-                public void onChanged(@Nullable List<Movie> movies) {
-                    if (movies != null) {
-                        mMoviesAdapter.setMoviesData(movies);
-                    }
-                }
+            mMoviesViewModel.getFavoriteMoviesList().observe(this, v -> {
+                mMoviesAdapter.setMoviesData(v);
             });
         }
 
@@ -79,9 +73,9 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
     @Override
     public void onClick(Movie movie) {
         Context context = this;
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
         Intent openMovieDetailsActivity = new Intent(context, MovieDetailsActivity.class);
-        openMovieDetailsActivity.putExtra(Intent.EXTRA_TEXT, gson.toJson(movie));
+        openMovieDetailsActivity.putExtra(Intent.EXTRA_TEXT, movie);
         startActivity(openMovieDetailsActivity);
     }
 
@@ -104,6 +98,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
                 } else if (position == 1 && isOnline()) {
                     connected();
                     subscribe(position);
+                } else if (position == 2) {
+                    subscribe(position);
                 } else {
                     disconnected();
                 }
@@ -123,7 +119,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
      */
     private void populateMoviesList(MoviesAdapter adapter) {
         mBinding.rvMovies.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
         mBinding.rvMovies.setLayoutManager(layoutManager);
     }
 

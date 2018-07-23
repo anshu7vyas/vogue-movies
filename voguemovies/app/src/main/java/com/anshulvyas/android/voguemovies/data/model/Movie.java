@@ -1,5 +1,12 @@
 package com.anshulvyas.android.voguemovies.data.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -7,10 +14,27 @@ import java.util.List;
 /**
  * Movie JSON response POJO
  */
-public class Movie {
+@Entity(tableName = "movie")
+public class Movie implements Parcelable {
 
     private static String BASE_URL_POSTER_IMAGE = "https://image.tmdb.org/t/p/w185";
     private static String BASE_URL_BACKDROP_IMAGE = "https://image.tmdb.org/t/p/w300";
+
+    @Ignore
+    Movie() {
+
+    }
+
+    public Movie(Integer movieId, String originalTitle, String movieOverview, String posterPath, String backdropPath,
+                 String movieReleaseDate, Double voteAverage) {
+        this.movieId = movieId;
+        this.originalTitle = originalTitle;
+        this.movieOverview = movieOverview;
+        this.posterPath = posterPath;
+        this.backdropPath = backdropPath;
+        this.movieReleaseDate = movieReleaseDate;
+        this.voteAverage = voteAverage;
+    }
 
     /**
      * vote_count : 3705
@@ -28,45 +52,60 @@ public class Movie {
      * overview : As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.
      * release_date : 2018-04-25
      */
-    @SerializedName("vote_count")
-    private Integer voteCount;
-
+    @PrimaryKey
+    @ColumnInfo(name = "movie_id")
     @SerializedName("id")
     private Integer movieId;
 
-    @SerializedName("video")
-    private Boolean movieVideo;
-
+    @ColumnInfo(name = "vote_average")
     @SerializedName("vote_average")
     private Double voteAverage;
 
-    @SerializedName("title")
-    private String movieTitle;
-
-    @SerializedName("popularity")
-    private Double moviePopularity;
-
+    @ColumnInfo(name = "poster_path")
     @SerializedName("poster_path")
     private String posterPath;
 
-    @SerializedName("original_language")
-    private String originalLanguage;
-
+    @ColumnInfo(name = "original_title")
     @SerializedName("original_title")
     private String originalTitle;
 
+    @ColumnInfo(name = "backdrop_path")
     @SerializedName("backdrop_path")
     private String backdropPath;
 
-    @SerializedName("adult")
-    private Boolean isAdult;
-
+    @ColumnInfo(name = "movie_overview")
     @SerializedName("overview")
     private String movieOverview;
 
+    @ColumnInfo(name = "release_date")
     @SerializedName("release_date")
     private String movieReleaseDate;
 
+    @Ignore
+    @SerializedName("vote_count")
+    private Integer voteCount;
+
+    @Ignore
+    @SerializedName("video")
+    private Boolean movieVideo;
+
+    @Ignore
+    @SerializedName("title")
+    private String movieTitle;
+
+    @Ignore
+    @SerializedName("popularity")
+    private Double moviePopularity;
+
+    @Ignore
+    @SerializedName("original_language")
+    private String originalLanguage;
+
+    @Ignore
+    @SerializedName("adult")
+    private Boolean isAdult;
+
+    @Ignore
     @SerializedName("genre_ids")
     private List<Integer> movieGenreIds;
 
@@ -180,5 +219,43 @@ public class Movie {
 
     public void setMovieGenreIds(List<Integer> movieGenreIds) {
         this.movieGenreIds = movieGenreIds;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.movieId);
+        dest.writeString(this.originalTitle);
+        dest.writeString(this.movieOverview);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.backdropPath);
+        dest.writeString(this.movieReleaseDate);
+        dest.writeDouble(this.voteAverage);
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    private Movie(Parcel in) {
+        this.movieId = in.readInt();
+        this.originalTitle = in.readString();
+        this.movieOverview = in.readString();
+        this.posterPath = in.readString();
+        this.backdropPath = in.readString();
+        this.movieReleaseDate = in.readString();
+        this.voteAverage = in.readDouble();
     }
 }

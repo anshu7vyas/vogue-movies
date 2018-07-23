@@ -1,15 +1,19 @@
 package com.anshulvyas.android.voguemovies.data;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
+import com.anshulvyas.android.voguemovies.AppExecutors;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.anshulvyas.android.voguemovies.data.model.MovieReviews;
 import com.anshulvyas.android.voguemovies.data.model.MovieReviewsResponse;
 import com.anshulvyas.android.voguemovies.data.model.MovieVideos;
 import com.anshulvyas.android.voguemovies.data.model.MovieVideosResponse;
 import com.anshulvyas.android.voguemovies.data.model.MoviesResponse;
+import com.anshulvyas.android.voguemovies.data.source.local.FavoriteMoviesDao;
+import com.anshulvyas.android.voguemovies.data.source.local.FavoriteMoviesDatabase;
 import com.anshulvyas.android.voguemovies.data.source.remote.MoviesApiClient;
 
 import java.util.ArrayList;
@@ -26,13 +30,20 @@ public class MoviesRepository {
 
     private static final String LOG_TAG = MoviesRepository.class.getSimpleName();
     private static MoviesRepository mMoviesRepositoryInstance = null;
-    private final MoviesApiClient mMoviesApiClient = MoviesApiClient.getInstance();
+    private final MoviesApiClient mMoviesApiClient;
+    private final FavoriteMoviesDao mFavoriteMoviesDao;
 
-    public static MoviesRepository getInstance() {
+    public static MoviesRepository getInstance(Application application) {
         if (mMoviesRepositoryInstance == null) {
-            mMoviesRepositoryInstance = new MoviesRepository();
+            mMoviesRepositoryInstance = new MoviesRepository(application);
         }
         return mMoviesRepositoryInstance;
+    }
+
+    private MoviesRepository(Application application) {
+        FavoriteMoviesDatabase database = FavoriteMoviesDatabase.getInstance(application);
+        mFavoriteMoviesDao = database.favoriteMoviesDao();
+        mMoviesApiClient = MoviesApiClient.getInstance();
     }
 
     /**
@@ -184,5 +195,40 @@ public class MoviesRepository {
 //
 //        return movieDetails;
 //    }
+
+    public LiveData<List<Movie>> getFavoriteMoviesLiveData() {
+        LiveData<List<Movie>> mFavoriteMoviesList = mFavoriteMoviesDao.getFavoriteMovies();
+        return mFavoriteMoviesList;
+    }
+
+    public LiveData<Movie> getFavoriteMovieById (int movieId) {
+        return mFavoriteMoviesDao.getMovieById(movieId);
+    }
+
+    public void toggleFavoriteMovie (Movie movie) {
+        AppExecutors.getInstance().diskIO().execute(() -> {
+                boolean isFavorite = mFavoriteMoviesDao.isFavoriteMovie(movie.getMovieId());
+
+                if (isFavorite) {
+                    deleteFavoriteMovie(movie);
+                } else {
+                    insertFavoriteMovie(movie);
+                }
+        });
+    }
+
+    private void insertFavoriteMovie (Movie movie) {
+        AppExecutors.getInstance().diskIO().execute(() -> mFavoriteMoviesDao.insertMovie(movie));
+    }
+
+    private void deleteFavoriteMovie (Movie movie) {
+        AppExecutors.getInstance().diskIO().execute(() -> mFavoriteMoviesDao.deleteMovie(movie));
+    }
+
+
+
+
+
+
 
 }
