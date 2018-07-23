@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.anshulvyas.android.voguemovies.data.model.Movie;
 
-@Database(entities = {Movie.class}, version = 1, exportSchema = false)
+@Database(entities = {Movie.class}, version = 2, exportSchema = false)
 public abstract class FavoriteMoviesDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "movies.db";
@@ -21,6 +21,7 @@ public abstract class FavoriteMoviesDatabase extends RoomDatabase {
             synchronized (LOCK) {
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         FavoriteMoviesDatabase.class, DATABASE_NAME)
+                        .fallbackToDestructiveMigration()
                         .build();
                 }
             }

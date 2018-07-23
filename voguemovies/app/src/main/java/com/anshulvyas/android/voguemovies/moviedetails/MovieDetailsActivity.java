@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRatingBar;
@@ -20,6 +21,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Shows details of a selected Movie - Title, Overview, Rating, Release Date
@@ -46,9 +48,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         if (intentFromMoviesActivity != null) {
             if (intentFromMoviesActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                Gson gson = new Gson();
-                String movieString = getIntent().getStringExtra(Intent.EXTRA_TEXT);//getStringExtra(Intent.EXTRA_TEXT);
-                movie = gson.fromJson(movieString, Movie.class);
+                //Gson gson = new Gson();
+                movie = getIntent().getParcelableExtra(Intent.EXTRA_TEXT);//getStringExtra(Intent.EXTRA_TEXT);
+                //movie = gson.fromJson(movieString, Movie.class);
             }
         }
 
@@ -101,6 +103,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .error(android.R.drawable.sym_def_app_icon)
                 .into(mMoviesDetailBinding.ivMoviePoster);
 
+        mMoviesDetailBinding.fabFavorite.setOnClickListener(v -> {
+            mMovieDetailsViewModel.toggleIsFavoriteMovie(movie);
+            setToggleFavoriteButton (movie);
+        });
+
         populateVideosList();
         populateReviewsList();
     }
@@ -115,6 +122,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
         mMoviesDetailBinding.rvReviews.setAdapter(mMovieReviewsAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mMoviesDetailBinding.rvReviews.setLayoutManager(layoutManager);
+    }
+
+    private void setToggleFavoriteButton (Movie movie) {
+        if (movie != null) {
+            mMoviesDetailBinding.fabFavorite.setImageResource(R.drawable.ic_favorite_red);
+        } else {
+            mMoviesDetailBinding.fabFavorite.setImageResource(R.drawable.ic_favorite_border_red);
+        }
     }
 
 }

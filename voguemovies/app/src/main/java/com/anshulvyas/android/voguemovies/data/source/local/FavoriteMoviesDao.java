@@ -6,7 +6,6 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import com.anshulvyas.android.voguemovies.data.model.Movie;
 
@@ -21,13 +20,12 @@ public interface FavoriteMoviesDao {
     @Delete
     void deleteMovie (Movie movie);
 
-    @Query("SELECT * FROM movie WHERE movieId == :movieId")
+    @Query("SELECT * FROM movie WHERE movie_id == :movieId")
     LiveData<Movie> getMovieById (int movieId);
 
-    @Query("SELECT * FROM movie ORDER BY originalTitle ASC")
+    @Query("SELECT * FROM movie ORDER BY original_title ASC")
     LiveData<List<Movie>> getFavoriteMovies();
 
-    @Query("SELECT count(*) from movie WHERE movieId == :movieId")
+    @Query("SELECT count(*) from movie WHERE movie_id == :movieId")
     boolean isFavoriteMovie (int movieId);
-
 }

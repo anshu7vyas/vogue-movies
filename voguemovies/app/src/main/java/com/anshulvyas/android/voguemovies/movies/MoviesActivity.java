@@ -73,9 +73,9 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
     @Override
     public void onClick(Movie movie) {
         Context context = this;
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
         Intent openMovieDetailsActivity = new Intent(context, MovieDetailsActivity.class);
-        openMovieDetailsActivity.putExtra(Intent.EXTRA_TEXT, gson.toJson(movie));
+        openMovieDetailsActivity.putExtra(Intent.EXTRA_TEXT, movie);
         startActivity(openMovieDetailsActivity);
     }
 

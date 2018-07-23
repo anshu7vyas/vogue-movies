@@ -30,4 +30,8 @@ public class MovieDetailsViewModel extends AndroidViewModel {
         return mMoviesRepository.getReviewsFromMovieId(movieId);
     }
 
+    public void toggleIsFavoriteMovie (Movie movie) {
+        mMoviesRepository.toggleFavoriteMovie(movie);
+    }
+
 }
