@@ -62,8 +62,8 @@ public class Movie implements Parcelable {
     @SerializedName("release_date")
     private String movieReleaseDate;
 
-    @ColumnInfo(name = "favorite")
-    private boolean isFavorite;
+//    @ColumnInfo(name = "favorite")
+//    private boolean isFavorite;
 
     @Ignore
     Movie() {
@@ -71,7 +71,7 @@ public class Movie implements Parcelable {
     }
 
     public Movie(Integer movieId, String originalTitle, String movieOverview, String posterPath, String backdropPath,
-                 String movieReleaseDate, Double voteAverage, boolean isFavorite) {
+                 String movieReleaseDate, Double voteAverage) {
         this.movieId = movieId;
         this.originalTitle = originalTitle;
         this.movieOverview = movieOverview;
@@ -79,7 +79,6 @@ public class Movie implements Parcelable {
         this.backdropPath = backdropPath;
         this.movieReleaseDate = movieReleaseDate;
         this.voteAverage = voteAverage;
-        this.isFavorite = isFavorite;
     }
 
     @Ignore
@@ -222,13 +221,13 @@ public class Movie implements Parcelable {
         this.movieGenreIds = movieGenreIds;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setIsFavorite(boolean favorite){
-        this.isFavorite = favorite;
-    }
+//    public boolean isFavorite() {
+//        return isFavorite;
+//    }
+//
+//    public void setIsFavorite(boolean favorite){
+//        this.isFavorite = favorite;
+//    }
 
     @Override
     public int describeContents() {
@@ -244,7 +243,7 @@ public class Movie implements Parcelable {
         dest.writeString(this.backdropPath);
         dest.writeString(this.movieReleaseDate);
         dest.writeDouble(this.voteAverage);
-        dest.writeByte((byte) (isFavorite ? 1 : 0));
+        //dest.writeByte((byte) (isFavorite ? 1 : 0));
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {

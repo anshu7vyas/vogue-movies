@@ -219,11 +219,9 @@ public class MoviesRepository {
 
     private void insertFavoriteMovie (Movie movie) {
         AppExecutors.getInstance().diskIO().execute(() -> mFavoriteMoviesDao.insertMovie(movie));
-        movie.setIsFavorite(true);
     }
 
     private void deleteFavoriteMovie (Movie movie) {
         AppExecutors.getInstance().diskIO().execute(() -> mFavoriteMoviesDao.deleteMovie(movie));
-        movie.setIsFavorite(false);
     }
 }
