@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.anshulvyas.android.voguemovies.MoviesApplication;
 import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.anshulvyas.android.voguemovies.databinding.RvMoviesListItemBinding;
@@ -53,14 +54,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
     @Override
     public void onBindViewHolder(@NonNull MoviesAdapterViewHolder holder, int position) {
         Movie movie = mMoviesList.get(position);
-        String imageUrl = movie.getPosterPath();
+        String imageUrl = MoviesApplication.BASE_URL_POSTER_IMAGE + movie.getPosterPath();
 
         Picasso.with(mContext)
                 .load(imageUrl)
                 .placeholder(android.R.drawable.sym_def_app_icon)
                 .error(android.R.drawable.sym_def_app_icon)
                 .into(holder.moviesListItemBinding.ivMoviesItem);
-
     }
 
     @Override
