@@ -1,13 +1,13 @@
 package com.anshulvyas.android.voguemovies.movies;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.Nullable;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,30 +20,42 @@ import com.anshulvyas.android.voguemovies.R;
 import com.anshulvyas.android.voguemovies.data.model.Movie;
 import com.anshulvyas.android.voguemovies.databinding.ActivityMoviesBinding;
 import com.anshulvyas.android.voguemovies.moviedetails.MovieDetailsActivity;
-import com.google.gson.Gson;
 
-import java.util.List;
 
 public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterOnClickHandler {
+
+    private static final String SPINNER_CATEGORY_POSITION_KEY = "category_position";
 
     private MoviesAdapter mMoviesAdapter;
     private ActivityMoviesBinding mBinding;
     private MoviesActivityViewModel mMoviesViewModel;
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
+        outState.putInt(SPINNER_CATEGORY_POSITION_KEY, mBinding.spinnerCategory.getSelectedItemPosition());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
+        int orientation = this.getResources().getConfiguration().orientation;
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movies);
 
         mMoviesAdapter = new MoviesAdapter(this, this);
         mMoviesViewModel = ViewModelProviders.of(this).get(MoviesActivityViewModel.class);
 
+        if (savedInstanceState != null) {
+            mBinding.spinnerCategory.setSelection(savedInstanceState.getInt(SPINNER_CATEGORY_POSITION_KEY, 0));
+        }
 
-        populateMoviesList(mMoviesAdapter);
+        populateMoviesList(mMoviesAdapter, orientation);
         categorySort();
+
     }
 
     /**
@@ -62,7 +74,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
             mMoviesViewModel.getTopRatedMoviesList().observe(this, v -> {
                 mMoviesAdapter.setMoviesData(v);
             });
-        } else {
+        } else if (categoryPosition == 2) {
             mMoviesViewModel.getFavoriteMoviesList().observe(this, v -> {
                 mMoviesAdapter.setMoviesData(v);
             });
@@ -73,7 +85,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
     @Override
     public void onClick(Movie movie) {
         Context context = this;
-        //Gson gson = new Gson();
         Intent openMovieDetailsActivity = new Intent(context, MovieDetailsActivity.class);
         openMovieDetailsActivity.putExtra(Intent.EXTRA_TEXT, movie);
         startActivity(openMovieDetailsActivity);
@@ -99,6 +110,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
                     connected();
                     subscribe(position);
                 } else if (position == 2) {
+                    connected();
                     subscribe(position);
                 } else {
                     disconnected();
@@ -117,10 +129,15 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
      *
      * @param adapter
      */
-    private void populateMoviesList(MoviesAdapter adapter) {
+    private void populateMoviesList(MoviesAdapter adapter, int orientation) {
         mBinding.rvMovies.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
-        mBinding.rvMovies.setLayoutManager(layoutManager);
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            LinearLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
+            mBinding.rvMovies.setLayoutManager(layoutManager);
+        } else {
+            LinearLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
+            mBinding.rvMovies.setLayoutManager(layoutManager);
+        }
     }
 
     /**
