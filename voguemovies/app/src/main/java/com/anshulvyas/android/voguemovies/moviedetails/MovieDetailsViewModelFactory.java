@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 
 import com.anshulvyas.android.voguemovies.data.model.Movie;
 
+/**
+ * Source: Google CodeLabs: Architecture Components for Sunshine App
+ */
 public class MovieDetailsViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final Application mApplication;

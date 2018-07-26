@@ -3,6 +3,7 @@ package com.anshulvyas.android.voguemovies.movies;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
@@ -29,6 +30,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
     private MoviesAdapter mMoviesAdapter;
     private ActivityMoviesBinding mBinding;
     private MoviesActivityViewModel mMoviesViewModel;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -44,6 +47,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
 
         int orientation = this.getResources().getConfiguration().orientation;
 
+        mSharedPreferences = getSharedPreferences(SPINNER_CATEGORY_POSITION_KEY, MODE_PRIVATE);
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movies);
 
         mMoviesAdapter = new MoviesAdapter(this, this);
@@ -54,7 +59,9 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
         }
 
         populateMoviesList(mMoviesAdapter, orientation);
-        categorySort();
+
+        int selectedPosition = mSharedPreferences.getInt(SPINNER_CATEGORY_POSITION_KEY, 0);
+        categorySort(selectedPosition);
 
     }
 
@@ -65,7 +72,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
      *
      * @param categoryPosition
      */
-    public void subscribe(int categoryPosition) {
+    private void subscribe(int categoryPosition) {
         if (categoryPosition == 0) {
             mMoviesViewModel.getPopularMoviesList().observe(this, v -> {
                 mMoviesAdapter.setMoviesData(v);
@@ -93,23 +100,23 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
     /**
      * Handles the spinner item selection in the Main Screen
      */
-    private void categorySort() {
+    private void categorySort(int position) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_sort, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mBinding.spinnerCategory.setAdapter(adapter);
+        mBinding.spinnerCategory.setSelection(position);
 
         mBinding.spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0 && isOnline()) {
-                    connected();
-                    subscribe(position);
-                } else if (position == 1 && isOnline()) {
-                    connected();
-                    subscribe(position);
-                } else if (position == 2) {
+                mEditor = mSharedPreferences.edit();
+
+                mEditor.putInt(SPINNER_CATEGORY_POSITION_KEY, position);
+                mEditor.commit();
+
+                if (isOnline()) {
                     connected();
                     subscribe(position);
                 } else {
@@ -127,7 +134,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
     /**
      * Sets up the recycler view and populates with the data received
      *
-     * @param adapter
+     * @param adapter movies Adapter
      */
     private void populateMoviesList(MoviesAdapter adapter, int orientation) {
         mBinding.rvMovies.setAdapter(adapter);
@@ -143,9 +150,9 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
     /**
      * Checks for internet connectivity
      *
-     * @return
+     * @return whether there is network or not
      */
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -169,5 +176,15 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
         mBinding.ivNoInternet.setVisibility(View.VISIBLE);
         mBinding.tvNoInternet.setVisibility(View.VISIBLE);
     }
+
+//    private void setupSharedPreferences() {
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//        editor.putInt(SPINNER_CATEGORY_POSITION_KEY, mBinding.spinnerCategory.getSelectedItemPosition());
+//        editor.commit();
+//    }
+
+
 
 }
