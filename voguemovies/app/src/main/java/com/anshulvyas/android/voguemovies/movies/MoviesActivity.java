@@ -119,9 +119,11 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
                 if (isOnline()) {
                     connected();
                     subscribe(position);
+                    mMoviesAdapter.notifyDataSetChanged();
                 } else {
                     disconnected();
                 }
+                mBinding.rvMovies.scrollToPosition(0);
             }
 
             @Override
