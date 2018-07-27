@@ -13,10 +13,6 @@ An Android app for displaying the trending movies using The MovieDB API
 - Gson
 - Picasso
 
-## TODO:
-- Add a favorite options for letting users favorite their movie
-- See all of user's favorite movies in one place
-
 ### Instructions for running the app:
 - Please add your TMDb API key to gradle.properties file, <br>
 it has a placeholder MOVIE_DB_API_KEY = "_insert_your_API_key_here_"
