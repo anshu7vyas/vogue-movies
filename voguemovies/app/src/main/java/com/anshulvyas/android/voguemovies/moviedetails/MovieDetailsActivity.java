@@ -3,6 +3,7 @@ package com.anshulvyas.android.voguemovies.moviedetails;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import com.anshulvyas.android.voguemovies.databinding.ActivityMovieDetailsBindin
 import com.squareup.picasso.Picasso;
 
 /**
- * Shows details of a selected Movie - Title, Overview, Rating, Release Date
+ * Shows details of a selected Movie - Title, Overview, Rating, Release Date, Trailers, Reviews
  */
 public class MovieDetailsActivity extends AppCompatActivity {
 
