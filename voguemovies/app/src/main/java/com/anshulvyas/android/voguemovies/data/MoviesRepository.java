@@ -169,34 +169,6 @@ public class MoviesRepository {
         return movieReviewsList;
     }
 
-//    public LiveData<Movie> getMovieFromMovieId (int movieId) {
-//        final MutableLiveData<Movie> movieDetailsMutableLiveData = new MutableLiveData<>();
-//
-//        mMoviesApiClient.getMoviesApiHandler().getMovieFromId(movieId).enqueue(new Callback<Movie>() {
-//            @Override
-//            public void onResponse(Call<Movie> call, Response<Movie> response) {
-//                movieDetailsMutableLiveData.setValue(fetchMovieDetails(response));
-//                Log.d(LOG_TAG, movieDetailsMutableLiveData.toString());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Movie> call, Throwable t) {
-//                Log.d(LOG_TAG, t.toString());
-//            }
-//        });
-//        return movieDetailsMutableLiveData;
-//    }
-//
-//    private Movie fetchMovieDetails (Response<Movie> movieDetailsResponse) {
-//        Movie movieDetails= new Movie();
-//
-//        if (movieDetailsResponse.body() != null) {
-//            movieDetails = movieDetailsResponse.body();
-//        }
-//
-//        return movieDetails;
-//    }
-
     public LiveData<List<Movie>> getFavoriteMoviesLiveData() {
         return mFavoriteMoviesDao.getFavoriteMovies();
     }
