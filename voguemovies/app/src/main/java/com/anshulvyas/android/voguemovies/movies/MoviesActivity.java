@@ -26,7 +26,9 @@ import com.anshulvyas.android.voguemovies.moviedetails.MovieDetailsActivity;
 public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterOnClickHandler {
 
     private static final String SPINNER_CATEGORY_POSITION_KEY = "category_position";
+    private static final String RV_LAYOUT_STATE = "rv_state";
 
+    private boolean isTriggeredByRestoring;
     private MoviesAdapter mMoviesAdapter;
     private ActivityMoviesBinding mBinding;
     private MoviesActivityViewModel mMoviesViewModel;
@@ -38,12 +40,14 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
         super.onSaveInstanceState(outState, outPersistentState);
 
         outState.putInt(SPINNER_CATEGORY_POSITION_KEY, mBinding.spinnerCategory.getSelectedItemPosition());
+        outState.putParcelable(RV_LAYOUT_STATE, mBinding.rvMovies.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
+        isTriggeredByRestoring = true;
 
         int orientation = this.getResources().getConfiguration().orientation;
 
@@ -54,14 +58,15 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
         mMoviesAdapter = new MoviesAdapter(this, this);
         mMoviesViewModel = ViewModelProviders.of(this).get(MoviesActivityViewModel.class);
 
-        if (savedInstanceState != null) {
-            mBinding.spinnerCategory.setSelection(savedInstanceState.getInt(SPINNER_CATEGORY_POSITION_KEY, 0));
-        }
-
         populateMoviesList(mMoviesAdapter, orientation);
 
         int selectedPosition = mSharedPreferences.getInt(SPINNER_CATEGORY_POSITION_KEY, 0);
         categorySort(selectedPosition);
+
+        if (savedInstanceState != null) {
+            mBinding.spinnerCategory.setSelection(savedInstanceState.getInt(SPINNER_CATEGORY_POSITION_KEY, 0));
+            mBinding.rvMovies.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(RV_LAYOUT_STATE));
+        }
 
     }
 
@@ -119,11 +124,16 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
                 if (isOnline()) {
                     connected();
                     subscribe(position);
-                    mMoviesAdapter.notifyDataSetChanged();
+                    //mMoviesAdapter.notifyDataSetChanged();
                 } else {
                     disconnected();
                 }
-                mBinding.rvMovies.scrollToPosition(0);
+
+                if (isTriggeredByRestoring) {
+                    isTriggeredByRestoring = false;
+                } else {
+                    mBinding.rvMovies.scrollToPosition(0);
+                }
             }
 
             @Override
@@ -139,14 +149,15 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
      * @param adapter movies Adapter
      */
     private void populateMoviesList(MoviesAdapter adapter, int orientation) {
-        mBinding.rvMovies.setAdapter(adapter);
+
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            LinearLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false);
             mBinding.rvMovies.setLayoutManager(layoutManager);
         } else {
-            LinearLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
             mBinding.rvMovies.setLayoutManager(layoutManager);
         }
+        mBinding.rvMovies.setAdapter(adapter);
     }
 
     /**
@@ -178,15 +189,4 @@ public class MoviesActivity extends AppCompatActivity implements MoviesAdapter.M
         mBinding.ivNoInternet.setVisibility(View.VISIBLE);
         mBinding.tvNoInternet.setVisibility(View.VISIBLE);
     }
-
-//    private void setupSharedPreferences() {
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//        editor.putInt(SPINNER_CATEGORY_POSITION_KEY, mBinding.spinnerCategory.getSelectedItemPosition());
-//        editor.commit();
-//    }
-
-
-
 }
